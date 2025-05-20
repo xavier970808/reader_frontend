@@ -36,7 +36,7 @@ export default {
     const totalChapters = ref(0)
     const loading = ref(true)
 
-    const apiBaseUrl = import.meta.env.production.VITE_API_BASE_URL
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
     const fetchChapter = async () => {
       loading.value = true

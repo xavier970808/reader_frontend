@@ -32,7 +32,7 @@ export default {
 
     console.log('傳送給後端的 filename：', filename)
 
-    const apiBaseUrl = import.meta.env.production.VITE_API_BASE_URL
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
     const fetchChapters = async () => {
       try {
