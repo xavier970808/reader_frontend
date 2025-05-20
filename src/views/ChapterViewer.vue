@@ -36,10 +36,12 @@ export default {
     const totalChapters = ref(0)
     const loading = ref(true)
 
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+
     const fetchChapter = async () => {
       loading.value = true
       try {
-        const res = await axios.post('http://localhost:5000/api/read-epub-chapter', {
+        const res = await axios.post(`${apiBaseUrl}/api/read-epub`, {
           filename,
           chapterIndex: chapterIndex.value
         })
