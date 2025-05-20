@@ -41,7 +41,7 @@ export default {
     const fetchChapter = async () => {
       loading.value = true
       try {
-        const res = await axios.post(`${apiBaseUrl}/api/read-epub`, {
+        const res = await axios.post(`${apiBaseUrl}/api/read-epub-chapter`, {
           filename,
           chapterIndex: chapterIndex.value
         })
