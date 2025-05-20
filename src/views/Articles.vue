@@ -34,9 +34,11 @@ export default {
       total: 0
     })
 
+    const apiBaseUrl = import.meta.env.production.VITE_API_BASE_URL
+
     const fetchEpubList = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/list-epubs')
+        const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
         epubList.value = res.data
         paginationProps.total = res.data.length
       } catch (err) {
