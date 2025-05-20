@@ -35,7 +35,9 @@ export default {
 
     const fetchChapters = async () => {
       try {
-        const res = await axios.post('http://localhost:5000/api/read-epub', {
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+
+      const res = await axios.post(`${apiBaseUrl}/api/read-epub`, {
           filename
         })
         chapters.value = res.data
