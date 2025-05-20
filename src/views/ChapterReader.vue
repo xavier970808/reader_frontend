@@ -42,8 +42,6 @@ export default {
         })
         chapters.value = res.data
 
-        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
-      console.log('📡 使用的 API Base URL:', apiBaseUrl)
       } catch (err) {
         console.error('載入章節失敗:', err)
         if (err.response && err.response.data && err.response.data.error) {
