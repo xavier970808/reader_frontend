@@ -6,7 +6,7 @@
             </a-menu-item>
             <a-menu-item key="/" @click="navigateTo('/')"><icon-home />首頁</a-menu-item>
             <a-menu-item key="/articles" @click="navigateTo('/articles')"><icon-book />文章</a-menu-item>
-            
+            <a-menu-item key="/calculator" @click="navigateTo('/calculator')"><icon-apps />計算機</a-menu-item>
         </a-menu>
         <div class="menu-right" align="right">
             <!--

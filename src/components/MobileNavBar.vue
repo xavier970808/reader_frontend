@@ -10,17 +10,12 @@
                     <a-menu-item key="/articles" @click="navigateTo('/articles')">
                         <icon-book />文章
                     </a-menu-item>
-                    
+                    <a-menu-item key="/calculator" @click="navigateTo('/calculator')"><icon-apps />計算機</a-menu-item>
                 </a-menu>
             </template>
         </a-trigger>
 
-        <div :style="{
-            width: '80px',
-            height: '30px',
-            background: 'var(--color-fill-3)',
-            cursor: 'text',
-        }" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC_FfAd7ExirZN83GGBMdWUbqXRhR7wlmafA&s" alt="logo" style=" width: 80px;" />
         <div class="menu-right" align="right"><!--
             <div :style="{ padding: '20px 10px' }">
                 <a-trigger trigger="click" position="left" auto-fit-position :unmount-on-close="false">
