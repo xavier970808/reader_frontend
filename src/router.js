@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/Home.vue'
 import Articles from './views/Articles.vue'
 import calculator from './views/calculator.vue'
+import UploadView from './views/UploadView.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -15,7 +16,12 @@ const routes = [
     path: '/calculator',
     name: 'calculator',
     component: () => import('./views/calculator.vue') 
-  }
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: UploadView,
+  },
 ]
 
 const router = createRouter({
