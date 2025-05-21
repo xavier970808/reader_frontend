@@ -18,8 +18,8 @@ const routes = [
     component: () => import('./views/calculator.vue') 
   },
   {
-    path: '/upload',
-    name: 'Upload',
+    path: '/UploadView',
+    name: 'UploadView',
     component: () => import('./views/UploadView.vue') 
   },
 ]
