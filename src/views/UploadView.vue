@@ -1,13 +1,16 @@
 <template>
   <div style="padding: 24px; max-width: 600px; margin: auto;">
     <a-page-header title="上傳 EPUB 檔案" @back="goBack" />
-    <a-upload
-      accept=".epub"
-      :before-upload="beforeUpload"
-      :show-upload-list="false"
-    >
-      <a-button type="primary" :icon="UploadOutlined">選擇 EPUB 檔案</a-button>
-    </a-upload>
+
+    <div style="margin-top: 24px;">
+      <a-upload
+        accept=".epub"
+        :before-upload="beforeUpload"
+        :show-upload-list="false"
+      >
+        <a-button type="primary">選擇 EPUB 檔案</a-button>
+      </a-upload>
+    </div>
 
     <div v-if="selectedFile" style="margin-top: 16px;">
       <p>已選擇：{{ selectedFile.name }}</p>
@@ -61,6 +64,7 @@ async function uploadFile() {
     )
     message.value = res.data.message
     messageType.value = 'success'
+    // 上傳成功後前往文章列表並刷新
     router.push('/articles')
   } catch (err) {
     console.error('上傳失敗', err)
