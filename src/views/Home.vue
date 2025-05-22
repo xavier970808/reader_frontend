@@ -5,9 +5,7 @@ export default {
         const visited_count = 1000;
         const images = [
         'https://lnovel.tw/uploads/https/xs.dmzj.com/img/1279/71/a95a412a90cf8c7b55dd9cd2ec2baf53.jpg.original.webp',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC_FfAd7ExirZN83GGBMdWUbqXRhR7wlmafA&s./assets/S__8429588_0.jpg',
         'https://img.linetv.tw/large/drama/10003-poster.jpg',
-        'https://lnovel.tw/uploads/https/xs.idmzj.com/img/webpic/0/lz0407l.jpg.small.webp',
         'https://p2.bahamut.com.tw/B/2KU/05/0001501805.JPG',
         ];
         return {
