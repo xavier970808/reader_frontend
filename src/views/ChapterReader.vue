@@ -16,65 +16,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import axios from 'axios'
 
-export default {
-  name: 'ChapterReader',
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const filename = decodeURIComponent(route.params.filename)
-    const chapters = ref([])
-    const loading = ref(true)
+const route = useRoute()
+const bookname = decodeURIComponent(route.params.bookname)
+const chapters = ref([])
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
-    console.log('傳送給後端的 filename：', filename)
-
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
-
-    const fetchChapters = async () => {
-      try {
-
-      const res = await axios.post(`${apiBaseUrl}/api/read-epub`, {
-          filename
-        })
-        chapters.value = res.data
-
-      } catch (err) {
-        console.error('載入章節失敗:', err)
-        if (err.response && err.response.data && err.response.data.error) {
-            chapters.value = [`⚠️ ${err.response.data.error}`]
-        } else {
-            chapters.value = ['⚠️ 無法載入章節內容。']
-        }
-    }
-      finally {
-        loading.value = false
-      }
-    }
-
-    const goBack = () => {
-      router.push('/articles')
-    }
-
-    onMounted(() => {
-      fetchChapters()
+async function fetchChapters() {
+  try {
+    const res = await axios.post(`${apiBaseUrl}/api/read-book`, {
+      bookname
     })
-
-    return {
-      filename,
-      chapters,
-      loading,
-      goBack
+    if (res.data.error) {
+      chapters.value = [`⚠️ ${res.data.error}`]
+    } else {
+      chapters.value = res.data
     }
+  } catch (err) {
+    console.error(err)
+    chapters.value = ['⚠️ 讀取失敗']
   }
 }
-</script>
 
-<style scoped>
-a-collapse-item {
-  margin-bottom: 16px;
-}
-</style>
+onMounted(fetchChapters)
+</script>

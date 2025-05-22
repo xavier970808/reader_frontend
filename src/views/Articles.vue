@@ -4,7 +4,9 @@
     <a-list :data="bookList" bordered>
       <template #item="{ item }">
         <a-list-item>
-          <a @click="goToBook(item)">{{ item }}</a>
+          <router-link :to="`/chapter/${encodeURIComponent(item)}`">
+  {{ item }}
+</router-link>
         </a-list-item>
       </template>
     </a-list>
