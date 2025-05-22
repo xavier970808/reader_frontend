@@ -1,41 +1,33 @@
 <template>
   <div style="padding: 24px;">
     <h1>書本列表</h1>
-    <a-list :data="bookList" bordered>
+    <a-list :data="epubList" bordered>
       <template #item="{ item }">
         <a-list-item>
           <router-link :to="`/chapter/${encodeURIComponent(item)}`">
-          {{ item }}
-        </router-link>
+            {{ item }}
+          </router-link>
         </a-list-item>
       </template>
     </a-list>
   </div>
 </template>
 
-<script>
-import axios from 'axios'
+<script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import axios from 'axios'
 
-export default {
-  setup() {
-    const bookList = ref([])
-    const router = useRouter()
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+const epubList = ref([])
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
-    const fetchBooks = async () => {
-      const res = await axios.get(`${apiBaseUrl}/api/list-books`)
-      bookList.value = res.data
-    }
-
-    const goToBook = (bookname) => {
-      router.push(`/book/${encodeURIComponent(bookname)}`)
-    }
-
-    onMounted(fetchBooks)
-
-    return { bookList, goToBook }
+async function fetchEpubs() {
+  try {
+    const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
+    epubList.value = res.data
+  } catch (err) {
+    console.error('載入 EPUB 清單失敗:', err)
   }
 }
+
+onMounted(fetchEpubs)
 </script>
