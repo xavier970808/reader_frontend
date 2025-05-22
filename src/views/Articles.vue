@@ -1,66 +1,39 @@
 <template>
-  <div class="articles-container">
-    <a-layout>
-      <a-layout-header style="background: #fff; padding: 24px;">
-        <h1>文章列表</h1>
-      </a-layout-header>
-      <a-layout-content style="padding: 24px;">
-        <a-list
-          :data="epubList"
-          :pagination-props="paginationProps"
-          bordered
-        >
-          <template #item="{ item }">
-            <a-list-item>
-              <a-link :href="`/chapter/${encodeURIComponent(item)}`">{{ item }}</a-link>
-            </a-list-item>
-          </template>
-        </a-list>
-      </a-layout-content>
-    </a-layout>
+  <div style="padding: 24px;">
+    <h1>書本列表</h1>
+    <a-list :data="bookList" bordered>
+      <template #item="{ item }">
+        <a-list-item>
+          <a @click="goToBook(item)">{{ item }}</a>
+        </a-list-item>
+      </template>
+    </a-list>
   </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue'
 import axios from 'axios'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
-  name: 'Articles',
   setup() {
-    const epubList = ref([])
-    const paginationProps = reactive({
-      defaultPageSize: 10,
-      total: 0
-    })
-
+    const bookList = ref([])
+    const router = useRouter()
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
-    const fetchEpubList = async () => {
-      try {
-        const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
-        epubList.value = res.data
-        paginationProps.total = res.data.length
-      } catch (err) {
-        console.error('載入 EPUB 清單失敗:', err)
-      }
+    const fetchBooks = async () => {
+      const res = await axios.get(`${apiBaseUrl}/api/list-books`)
+      bookList.value = res.data
     }
 
-    onMounted(() => {
-      fetchEpubList()
-    })
-
-    return {
-      epubList,
-      paginationProps
+    const goToBook = (bookname) => {
+      router.push(`/book/${encodeURIComponent(bookname)}`)
     }
+
+    onMounted(fetchBooks)
+
+    return { bookList, goToBook }
   }
 }
 </script>
-
-<style scoped>
-.articles-container {
-  width: 100%;
-  margin: 0 auto;
-}
-</style>

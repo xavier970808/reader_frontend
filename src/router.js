@@ -3,6 +3,7 @@ import Home from './views/Home.vue'
 import Articles from './views/Articles.vue'
 import calculator from './views/calculator.vue'
 import UploadView from './views/UploadView.vue'
+import BookReader from './views/BookReader.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -22,6 +23,12 @@ const routes = [
     name: 'UploadView',
     component: () => import('./views/UploadView.vue') 
   },
+  {
+  path: '/book/:bookname',
+  name: 'BookReader',
+  component: () => import('./views/BookReader.vue')
+  }
+
 ]
 
 const router = createRouter({
