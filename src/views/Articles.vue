@@ -1,9 +1,6 @@
 <template>
   <div style="padding: 24px;">
     <h1>書本列表</h1>
-    <div style="margin-bottom: 16px; color: #999;">
-      API Base URL: {{ apiBaseUrl }}
-    </div>
 
     <a-list :data="folderList" bordered>
       <template #item="{ item }">
