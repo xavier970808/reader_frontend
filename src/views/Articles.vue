@@ -8,7 +8,7 @@
     <a-list :data="folderList" bordered>
       <template #item="{ item }">
         <a-list-item>
-          <router-link :to="`/book/${encodeURIComponent(item)}`">
+          <router-link :to="`/folder/${encodeURIComponent(item)}`">
             {{ item }}
           </router-link>
         </a-list-item>

@@ -5,6 +5,7 @@ import calculator from './views/calculator.vue'
 import UploadView from './views/UploadView.vue'
 import BookReader from './views/BookReader.vue';
 import ChapterReader from './views/ChapterReader.vue'
+import FolderView from '@/views/FolderView.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -26,7 +27,12 @@ const routes = [
     name: 'UploadView',
     component: () => import('./views/UploadView.vue') 
   },
-
+  {
+    path: '/folder/:folderName',
+    name: 'FolderView',
+    component: FolderView,
+    props: true
+  },
 ]
 
 const router = createRouter({
