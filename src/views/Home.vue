@@ -4,10 +4,8 @@ export default {
     setup() {
         const visited_count = 1000;
         const images = [
-        'https://th.bing.com/th/id/OIP.LXbJv757DPh9_G2sWyOu0wHaDt?w=973&h=487&rs=1&pid=ImgDetMain',
-            'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/cd7a1aaea8e1c5e3d26fe2591e561798.png~tplv-uwbnlip3yd-webp.webp',
-            'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/6480dbc69be1b5de95010289787d64f1.png~tplv-uwbnlip3yd-webp.webp',
-            'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/0265a04fddbd77a19602a15d9d55d797.png~tplv-uwbnlip3yd-webp.webp',
+        './assets/S__8429587_0.jpg',
+        './assets/S__8429588_0.jpg',
         ];
         return {
             images,
@@ -25,14 +23,14 @@ export default {
                     width: '100%',
                     height: '80vh',
                 }" :auto-play="true" indicator-type="dot" show-arrow="hover">
-                    <!--
+                    
                     <a-carousel-item v-for="image in images">
                         <img :src="image" :style="{
                         width: '100%',
                             height: '100%',
                         }" />
                     </a-carousel-item>
-                    --->
+                    
                 </a-carousel>
             </a-layout-header>
             <a-layout-content style="padding: 24px">
