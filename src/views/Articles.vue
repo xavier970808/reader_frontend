@@ -5,8 +5,8 @@
       <template #item="{ item }">
         <a-list-item>
           <router-link :to="`/chapter/${encodeURIComponent(item)}`">
-  {{ item }}
-</router-link>
+          {{ item }}
+        </router-link>
         </a-list-item>
       </template>
     </a-list>
