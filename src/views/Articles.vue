@@ -1,15 +1,14 @@
 <template>
   <div style="padding: 24px;">
     <h1>書本列表</h1>
-    <!-- 列表上方显示当前 API Base URL，确认环境变量正确 -->
     <div style="margin-bottom: 16px; color: #999;">
       API Base URL: {{ apiBaseUrl }}
     </div>
 
-    <a-list :data="epubList" bordered>
+    <a-list :data="folderList" bordered>
       <template #item="{ item }">
         <a-list-item>
-          <router-link :to="`/chapter/${encodeURIComponent(item)}`">
+          <router-link :to="`/book/${encodeURIComponent(item)}`">
             {{ item }}
           </router-link>
         </a-list-item>
@@ -22,18 +21,21 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-// 1. 读取环境变量
+// 讀取環境變數
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
-// 2. 列表数据
+// 原始完整路徑列表
 const epubList = ref([])
+// 目錄(書名)列表
+const folderList = ref([])
 
 async function fetchEpubs() {
-  console.log('📡 使用的 API Base URL:', apiBaseUrl)
   try {
     const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
-    console.log('📥 list-epubs 返回:', res.data)
     epubList.value = res.data
+    // 提取第一層資料夾名稱並去重
+    const folders = epubList.value.map(path => path.split('/')[0])
+    folderList.value = [...new Set(folders)]
   } catch (err) {
     console.error('❌ 取得 EPUB 列表失敗:', err)
   }
@@ -43,5 +45,5 @@ onMounted(fetchEpubs)
 </script>
 
 <style scoped>
-/* 你可以在这里调整样式 */
+/* 調整清單寬度或其他樣式 */
 </style>
