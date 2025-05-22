@@ -28,10 +28,7 @@ export default {
                 }" :auto-play="true" indicator-type="dot" show-arrow="hover">
                     
                     <a-carousel-item v-for="image in images">
-                        <img :src="image" :style="{
-                        width: '100%',
-                            height: '100%',
-                        }" />
+                        <img :src="image" class="carousel-image" />
                     </a-carousel-item>
                     
                 </a-carousel>
@@ -84,4 +81,13 @@ export default {
         padding: 16px;
     }
 }
+
+.carousel-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* 或 cover 看需求 */
+  display: block;
+  margin: 0 auto;
+}
+
 </style>
