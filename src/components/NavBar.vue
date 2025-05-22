@@ -6,7 +6,7 @@
             </a-menu-item>
             <a-menu-item key="/" @click="navigateTo('/')"><icon-home />首頁</a-menu-item>
             <a-menu-item key="/articles" @click="navigateTo('/articles')"><icon-book />文章</a-menu-item>
-            <a-menu-item key="/UploadView" @click="navigateTo('/UploadView')"><icon-upload />上傳文章</a-menu-item>
+            <!---<a-menu-item key="/UploadView" @click="navigateTo('/UploadView')"><icon-upload />上傳文章</a-menu-item>--->
             <a-sub-menu style="background-color:rgba(255, 255, 255, 0);" key="/0">
                 <template #icon><icon-apps></icon-apps></template>
                 <template #title>小工具</template>

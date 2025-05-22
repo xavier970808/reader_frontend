@@ -36,7 +36,7 @@ export default {
                 </a-carousel>
             </a-layout-header>
             <a-layout-content style="padding: 24px">
-                <h1>歡迎來到我們的網站</h1>
+                <h1>歡迎來到我的閱讀網站</h1>
                 <p></p>
                 
                 <a-card hoverable :style="{ width: '360px', marginBottom: '20px' }">

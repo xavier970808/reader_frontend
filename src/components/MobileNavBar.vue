@@ -10,8 +10,12 @@
                     <a-menu-item key="/articles" @click="navigateTo('/articles')">
                         <icon-book />文章
                     </a-menu-item>
-                    <a-menu-item key="/UploadView" @click="navigateTo('/UploadView')"><icon-upload />上傳文章</a-menu-item>
-                    <a-menu-item key="/calculator" @click="navigateTo('/calculator')"><icon-apps />計算機</a-menu-item>
+                    <!---<a-menu-item key="/UploadView" @click="navigateTo('/UploadView')"><icon-upload />上傳文章</a-menu-item>--->
+                    <a-sub-menu style="background-color:rgba(255, 255, 255, 0);" key="/0">
+                        <template #icon><icon-apps></icon-apps></template>
+                        <template #title>小工具</template>
+                        <a-menu-item key="/snake" @click="navigateTo('/calculator')">計算機</a-menu-item>
+                    </a-sub-menu>
                 </a-menu>
             </template>
         </a-trigger>
