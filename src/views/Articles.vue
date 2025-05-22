@@ -1,41 +1,42 @@
 <template>
   <div style="padding: 24px;">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h1>書本列表</h1>
-      <a-button type="primary" @click="$router.push('/upload')">上傳 EPUB</a-button>
-    </div>
-
-    <a-list :data="epubList" bordered style="margin-top: 16px;">
+    <h1>書本列表</h1>
+    <a-list :data="bookList" bordered>
       <template #item="{ item }">
         <a-list-item>
           <router-link :to="`/chapter/${encodeURIComponent(item)}`">
-            {{ item }}
-          </router-link>
+          {{ item }}
+        </router-link>
         </a-list-item>
       </template>
     </a-list>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue'
+<script>
 import axios from 'axios'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
-const epubList = ref([])
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+export default {
+  setup() {
+    const bookList = ref([])
+    const router = useRouter()
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
-async function fetchEpubs() {
-  try {
-    const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
-    epubList.value = res.data
-  } catch (err) {
-    console.error('載入 EPUB 清單失敗：', err)
+    const fetchBooks = async () => {
+      const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
+bookList.value = res.data
+
+    }
+
+    const goToBook = (bookname) => {
+      router.push(`/book/${encodeURIComponent(bookname)}`)
+    }
+
+    onMounted(fetchBooks)
+
+    return { bookList, goToBook }
   }
 }
-
-onMounted(fetchEpubs)
 </script>
-
-<style scoped>
-/* 若需調整寬度或間距，可在這裡設定 */
-</style>
