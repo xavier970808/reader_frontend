@@ -25,10 +25,20 @@ const loading = ref(true)
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
 async function fetchChapters() {
+  const url = `${apiBaseUrl}/api/read-epub`
+  console.log('📡 请求 URL:', url)
+  console.log('📤 请求 Payload:', { filename })
+
   try {
-    const res = await axios.post(`${apiBaseUrl}/api/read-epub`, { filename })
+    const res = await axios.post(url, { filename })
+    console.log('📥 后端返回:', res.status, res.data)
     chapters.value = res.data
-  } catch {
+  } catch (err) {
+    console.error('❌ axios 错误对象:', err)
+    if (err.response) {
+      console.error('❌ 后端状态码:', err.response.status)
+      console.error('❌ 后端返回内容:', err.response.data)
+    }
     chapters.value = ['⚠️ 章節載入失敗']
   } finally {
     loading.value = false
