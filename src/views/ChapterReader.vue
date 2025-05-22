@@ -1,3 +1,17 @@
+<template>
+  <div style="padding:24px;">
+    <a-page-header :title="filename" @back="goBack" />
+    <div v-if="loading">載入中...</div>
+    <div v-else>
+      <a-collapse>
+        <a-collapse-item v-for="(c,i) in chapters" :key="i" :title="`第 ${i+1} 章`">
+          <p style="white-space:pre-wrap">{{ c }}</p>
+        </a-collapse-item>
+      </a-collapse>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -14,8 +28,7 @@ async function fetchChapters() {
   try {
     const res = await axios.post(`${apiBaseUrl}/api/read-epub`, { filename })
     chapters.value = res.data
-  } catch (err) {
-    console.error(err)
+  } catch {
     chapters.value = ['⚠️ 章節載入失敗']
   } finally {
     loading.value = false
@@ -27,17 +40,3 @@ function goBack() {
 
 onMounted(fetchChapters)
 </script>
-
-<template>
-  <div style="padding:24px;">
-    <a-page-header :title="filename" @back="goBack" />
-    <div v-if="loading">載入中...</div>
-    <div v-else>
-      <a-collapse>
-        <a-collapse-item v-for="(c,i) in chapters" :key="i" :title="`第 ${i+1} 章`">
-          <p style="white-space:pre-wrap">{{ c }}</p>
-        </a-collapse-item>
-      </a-collapse>
-    </div>
-  </div>
-</template>
