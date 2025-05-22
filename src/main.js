@@ -17,19 +17,6 @@ document.body.setAttribute('arco-theme', 'light')
 //app.config.globalProperties.$message = Message;
 Message._context = app._context;
 
-loadOml2d({
-    dockedPosition: "right",
-  primaryColor: "#ff0000",
-  models: [ 
-    // 在这里进行配置
-    {
-      path: 'https://model.oml2d.com/HK416-1-normal/model.json',
-      position: [0, 0],
-      scale: 0.05,
-      mobileScale: 0.05,
-    }
-  ]
-});
 app.use(createPinia())
 app.use(ArcoVue);
 app.use(ArcoVueIcon);
