@@ -43,7 +43,9 @@ async function fetchChapters() {
       `${apiBaseUrl}/api/read-epub`,
       { filename }
     )
-    chapters.value = res.data
+    chapters.value = res.data.chapters
+    // 如果未來要刪除 extractId 暫存資料，這裡可以存下來
+    // const extractId = res.data.extractId
   } catch (err) {
     console.error('❌ 章節載入錯誤:', err)
     chapters.value = ['⚠️ 章節載入失敗']
@@ -51,6 +53,7 @@ async function fetchChapters() {
     loading.value = false
   }
 }
+
 
 // 返回文章列表
 function goBack() {
