@@ -46,6 +46,7 @@ async function fetchChapters() {
     chapters.value = res.data.chapters
     // 如果未來要刪除 extractId 暫存資料，這裡可以存下來
     // const extractId = res.data.extractId
+    console.log('✅ 從後端讀取到章節:', res.data)
   } catch (err) {
     console.error('❌ 章節載入錯誤:', err)
     chapters.value = ['⚠️ 章節載入失敗']
