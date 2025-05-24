@@ -11,7 +11,7 @@
           :key="i"
           :title="`第 ${i + 1} 章`"
         >
-          <div v-html="c" style="white-space: pre-wrap"></div>
+          <p style="white-space: pre-wrap">{{ c }}</p>
         </a-collapse-item>
       </a-collapse>
     </div>
@@ -43,10 +43,7 @@ async function fetchChapters() {
       `${apiBaseUrl}/api/read-epub`,
       { filename }
     )
-    chapters.value = res.data.chapters
-    // 如果未來要刪除 extractId 暫存資料，這裡可以存下來
-    // const extractId = res.data.extractId
-    console.log('✅ 從後端讀取到章節:', res.data)
+    chapters.value = res.data
   } catch (err) {
     console.error('❌ 章節載入錯誤:', err)
     chapters.value = ['⚠️ 章節載入失敗']
@@ -54,7 +51,6 @@ async function fetchChapters() {
     loading.value = false
   }
 }
-
 
 // 返回文章列表
 function goBack() {
