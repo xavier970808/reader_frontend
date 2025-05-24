@@ -11,7 +11,7 @@
           :key="i"
           :title="`第 ${i + 1} 章`"
         >
-          <p style="white-space: pre-wrap">{{ c }}</p>
+          <div v-html="c" style="white-space: pre-wrap"></div>
         </a-collapse-item>
       </a-collapse>
     </div>
