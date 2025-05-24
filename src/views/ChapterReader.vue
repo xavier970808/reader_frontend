@@ -11,7 +11,7 @@
           :key="i"
           :title="`第 ${i + 1} 章`"
         >
-          <p style="white-space: pre-wrap">{{ c }}</p>
+          <p style="white-space: pre-wrap" class="text-lg">{{ c }}</p>
         </a-collapse-item>
       </a-collapse>
     </div>
@@ -64,5 +64,10 @@ onMounted(fetchChapters)
 /* 可自行調整樣式 */
 a-collapse-item {
   margin-bottom: 12px;
+}
+
+.text-lg {
+  font-size: 17px;
+  line-height: 1.5;
 }
 </style>
