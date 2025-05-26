@@ -11,7 +11,7 @@
           :key="i"
           :title="`第 ${i + 1} 章`"
         >
-          <div class="text-lg" v-html="c"></div>
+          <p style="white-space: pre-wrap" class="text-lg">{{ c }}</p>
         </a-collapse-item>
       </a-collapse>
     </div>
@@ -39,8 +39,10 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 // 載入章節
 async function fetchChapters() {
   try {
-    const res = await axios.post(`${apiBaseUrl}/api/read-epub`, { filename })
-    console.log('🔍 raw chapter HTML:', res.data[0].slice(0,200))  // 印第一章前200字
+    const res = await axios.post(
+      `${apiBaseUrl}/api/read-epub`,
+      { filename }
+    )
     chapters.value = res.data
   } catch (err) {
     console.error('❌ 章節載入錯誤:', err)
