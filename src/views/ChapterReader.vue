@@ -39,10 +39,8 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 // 載入章節
 async function fetchChapters() {
   try {
-    const res = await axios.post(
-      `${apiBaseUrl}/api/read-epub`,
-      { filename }
-    )
+    const res = await axios.post(`${apiBaseUrl}/api/read-epub`, { filename })
+    console.log('🔍 raw chapter HTML:', res.data[0].slice(0,200))  // 印第一章前200字
     chapters.value = res.data
   } catch (err) {
     console.error('❌ 章節載入錯誤:', err)
