@@ -1,13 +1,13 @@
 <template>
   <div style="padding: 24px;">
-    <a-page-header :title="filename" @back="goBack" />
+    <a-page-header :title="name" @back="back" />
 
-    <div v-if="loading">載入中...</div>
+    <div v-if="busy">載入中...</div>
 
     <div v-else>
       <a-collapse>
         <a-collapse-item
-          v-for="(c, i) in chapters"
+          v-for="(c, i) in chaps"
           :key="i"
           :title="`第 ${i + 1} 章`"
         >
@@ -23,41 +23,40 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
-const route = useRoute()
-const router = useRouter()
+// 取得路由參數 filename（經 decodeURIComponent 解碼）
+const rt = useRoute()
+const nav = useRouter()
+const name = decodeURIComponent(rt.params.filename) // 檔名（含路徑）
 
-// 取得路由參數 filename
-const filename = decodeURIComponent(route.params.filename)
+// 狀態：章節內容、是否忙碌中
+const chaps = ref([]) 
+const busy = ref(true) 
 
-// 狀態
-const chapters = ref([])
-const loading = ref(true)
+// 後端 API 網址
+const apiUrl = import.meta.env.VITE_API_BASE_URL 
 
-// 從環境變數讀取後端 URL
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
-
-// 載入章節
-async function fetchChapters() {
+// 抓取章節內容
+async function getChaps() {
   try {
     const res = await axios.post(
-      `${apiBaseUrl}/api/read-epub`,
-      { filename }
+      `${apiUrl}/api/read-epub`,
+      { filename: name }
     )
-    chapters.value = res.data
+    chaps.value = res.data
   } catch (err) {
     console.error('❌ 章節載入錯誤:', err)
-    chapters.value = ['⚠️ 章節載入失敗']
+    chaps.value = ['⚠️ 章節載入失敗']
   } finally {
-    loading.value = false
+    busy.value = false
   }
 }
 
-// 返回文章列表
-function goBack() {
-  router.push('/articles')
+// 返回上一頁（文章列表）
+function back() {
+  nav.push('/articles')
 }
 
-onMounted(fetchChapters)
+onMounted(getChaps)
 </script>
 
 <style scoped>
@@ -67,7 +66,7 @@ a-collapse-item {
 }
 
 .text-lg {
-  font-size: 17;
+  font-size: 17px;
   line-height: 1.5;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div style="padding: 24px;">
-    <a-page-header @back="goBack" :title="folderName" />
-    <a-list :data="files" bordered style="margin-top: 16px;">
+    <a-page-header @back="back" :title="fld" />
+    <a-list :data="fls" bordered style="margin-top: 16px;">
       <template #item="{ item }">
         <a-list-item>
-          <!-- 顯示檔案名，不含資料夾前綴 -->
+          <!-- 顯示檔案名稱，不含資料夾前綴 -->
           <router-link :to="`/chapter/${encodeURIComponent(item)}`">
             {{ item.split('/').slice(-1)[0] }}
           </router-link>
@@ -19,30 +19,35 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
-const route = useRoute()
-const router = useRouter()
-const folderName = decodeURIComponent(route.params.folderName)
-const files = ref([])
+const rt = useRoute()
+const nav = useRouter()
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+// 當前資料夾名稱（書名）
+const fld = decodeURIComponent(rt.params.folderName) 
+const fls = ref([]) // 資料夾下的檔案清單
 
-async function fetchFiles() {
+// 後端 API 網址
+const apiUrl = import.meta.env.VITE_API_BASE_URL 
+
+// 抓取該資料夾下的檔案
+async function getFiles() {
   try {
-    const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
-    // 過濾只屬於這個資料夾的檔案
-    files.value = res.data.filter(path => path.split('/')[0] === folderName)
+    const res = await axios.get(`${apiUrl}/api/list-epubs`)
+    // 過濾出屬於當前資料夾（fld）的路徑
+    fls.value = res.data.filter(p => p.split('/')[0] === fld)
   } catch (err) {
     console.error('❌ 取得資料夾檔案失敗:', err)
   }
 }
 
-function goBack() {
-  router.push('/articles')
+// 返回文章列表
+function back() {
+  nav.push('/articles')
 }
 
-onMounted(fetchFiles)
+onMounted(getFiles)
 </script>
 
 <style scoped>
-/* 可自行調整 */
+/* 可自行調整樣式 */
 </style>

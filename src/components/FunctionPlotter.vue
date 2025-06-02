@@ -4,46 +4,46 @@
 
     <label>
       函數（用逗號分隔）:
-      <input v-model="functions" size="40" />
+      <input v-model="funs" size="40" />
     </label><br />
 
     <label>
       X 起點:
-      <input v-model.number="xStart" type="number" />
+      <input v-model.number="x0" type="number" />
     </label>
     <label>
       X 終點:
-      <input v-model.number="xEnd" type="number" />
+      <input v-model.number="x1" type="number" />
     </label><br />
 
     <label>
       積分起點:
-      <input v-model.number="intStart" type="number" />
+      <input v-model.number="i0" type="number" />
     </label>
     <label>
       積分終點:
-      <input v-model.number="intEnd" type="number" />
+      <input v-model.number="i1" type="number" />
     </label><br />
 
     <label>
       模式:
-      <select v-model="angleMode">
+      <select v-model="mode">
         <option value="deg">角度</option>
         <option value="rad">弧度</option>
       </select>
     </label><br />
 
     <label>
-      <input type="checkbox" v-model="showDerivative" />
+      <input type="checkbox" v-model="showDer" />
       顯示導數
     </label>
     <label>
-      <input type="checkbox" v-model="showPoints" />
+      <input type="checkbox" v-model="showPts" />
       標示交點 / 極值
     </label><br />
 
-    <button @click="plot">繪圖</button>
-    <div class="error">{{ error }}</div>
+    <button @click="draw">繪圖</button>
+    <div class="error">{{ err }}</div>
 
     <h3>定積分結果</h3>
     <div id="integrals"></div>
@@ -55,46 +55,46 @@
 import { ref } from 'vue'
 import Plotly from 'plotly.js-dist-min'
 
-const API_BASE = import.meta.env.VITE_API_BASE
+const api = import.meta.env.VITE_API_BASE // 後端 API 網址
 
 // Reactive state
-const functions = ref('sin(x), cos(x)')
-const xStart = ref(-360)
-const xEnd = ref(360)
-const intStart = ref(0)
-const intEnd = ref(180)
-const angleMode = ref('deg')
-const showDerivative = ref(false)
-const showPoints = ref(false)
-const error = ref('')
+const funs = ref('sin(x), cos(x)') // 使用者輸入函數串
+const x0 = ref(-360)     // X 軸起點
+const x1 = ref(360)      // X 軸終點
+const i0 = ref(0)        // 積分起點
+const i1 = ref(180)      // 積分終點
+const mode = ref('deg')  // 角度 (deg) 或弧度 (rad)
+const showDer = ref(false) // 是否顯示導數
+const showPts = ref(false) // 是否顯示交點/極值
+const err = ref('')       // 錯誤訊息顯示
 
-// 主繪圖函式
-const plot = async () => {
-  error.value = ''
+//繪圖
+const draw = async () => {
+  err.value = ''
   // 清空先前結果
   document.getElementById('integrals').innerHTML = ''
   Plotly.purge('plot')
 
   const payload = {
-    functions: functions.value,
-    x_start: xStart.value,
-    x_end: xEnd.value,
-    int_start: intStart.value,
-    int_end: intEnd.value,
-    angle_mode: angleMode.value,
-    show_derivative: showDerivative.value,
-    show_points: showPoints.value
+    functions: funs.value,
+    x_start: x0.value,
+    x_end: x1.value,
+    int_start: i0.value,
+    int_end: i1.value,
+    angle_mode: mode.value,
+    show_derivative: showDer.value,
+    show_points: showPts.value,
   }
 
   try {
-    const res = await fetch(`${API_BASE}/plot`, {
+    const res = await fetch(`${api}/plot`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     })
     const data = await res.json()
     if (data.error) {
-      error.value = '錯誤: ' + data.error
+      err.value = '錯誤: ' + data.error
       return
     }
 
@@ -109,8 +109,8 @@ const plot = async () => {
         document.getElementById('integrals').appendChild(div)
       })
     }
-  } catch (err) {
-    error.value = '伺服器連線錯誤: ' + err
+  } catch (e) {
+    err.value = '伺服器連線錯誤: ' + e
   }
 }
 </script>

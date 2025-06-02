@@ -2,9 +2,10 @@
   <div style="padding: 24px;">
     <h1>書本列表</h1>
 
-    <a-list :data="folderList" bordered>
+    <a-list :data="folders" bordered>
       <template #item="{ item }">
         <a-list-item>
+          <!-- 點擊書名後導向對應資料夾內的章節 -->
           <router-link :to="`/folder/${encodeURIComponent(item)}`">
             {{ item }}
           </router-link>
@@ -18,29 +19,30 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-// 讀取環境變數
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+// 從 .env 拿到後端 API 基本 URL
+const apiUrl = import.meta.env.VITE_API_BASE_URL 
 
-// 原始完整路徑列表
-const epubList = ref([])
-// 目錄(書名)列表
-const folderList = ref([])
+// 存放所有 epub 檔案的完整路徑
+const epubs = ref([]) 
+// 存放資料夾名稱（書名）的清單
+const folders = ref([]) 
 
-async function fetchEpubs() {
+// 取得 epub 檔案列表
+async function getEpubs() {
   try {
-    const res = await axios.get(`${apiBaseUrl}/api/list-epubs`)
-    epubList.value = res.data
-    // 提取第一層資料夾名稱並去重
-    const folders = epubList.value.map(path => path.split('/')[0])
-    folderList.value = [...new Set(folders)]
+    const res = await axios.get(`${apiUrl}/api/list-epubs`)
+    epubs.value = res.data
+    // 取出路徑第一層作為書名
+    const tmp = epubs.value.map(p => p.split('/')[0])
+    folders.value = [...new Set(tmp)]
   } catch (err) {
     console.error('❌ 取得 EPUB 列表失敗:', err)
   }
 }
 
-onMounted(fetchEpubs)
+onMounted(getEpubs)
 </script>
 
 <style scoped>
-/* 調整清單寬度或其他樣式 */
+/* 可於此處調整清單或排版樣式 */
 </style>
